@@ -1,4 +1,4 @@
-;;; selected-window-contrast.el --- Set contrast between text and background for window and modeline.   -*- lexical-binding: t -*-
+;;; selected-window-contrast.el --- Set contrast of text and background for window and modeline   -*- lexical-binding: t -*-
 
 ;; Copyright (c) 2024 github.com/Anoncheg1,codeberg.org/Anoncheg
 
