@@ -59,3 +59,10 @@ from https://emacs.stackexchange.com/questions/24630/is-there-a-way-to-change-co
 
 # screenshot
 ![](https://raw.githubusercontent.com/Anoncheg1/public-share/refs/heads/main/selected-window-contrast.png)
+
+# Other packages
+- Navigation in Dired, Packages, Buffers modes https://github.com/Anoncheg1/firstly-search
+- Search with Chinese https://github.com/Anoncheg1/pinyin-isearch
+- Ediff fix https://github.com/Anoncheg1/ediffnw
+- Dired history https://github.com/Anoncheg1/dired-hist
+- Russian celendar https://github.com/Anoncheg1/emacs-russian-calendar
