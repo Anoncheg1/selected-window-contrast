@@ -1,9 +1,8 @@
 # selected-window-contrast
-Configure contrast between text and background to mark selected window and mode-line.
 
-Allow to adjust brightness of text and background for selected and not selected window.
+Allow to set color of background and text by comparing their brightness. This is useful for changing themes during the daytime and for highlighting selected window. Just loop windows at frame and change colors.
 
-Allow to increase and decrease constrast between text and background separately.
+Also working for modeline.
 
 # Usage for selected window
 ```Elisp
@@ -57,3 +56,6 @@ Change contrast in current buffer ``` (selected-window-contrast-change-window 0.
 (add-hook 'buffer-list-update-hook 'highlight-selected-window)
 ```
 from https://emacs.stackexchange.com/questions/24630/is-there-a-way-to-change-color-of-active-windows-fringe
+
+# screenshot
+![](https://raw.githubusercontent.com/Anoncheg1/public-share/refs/heads/main/selected-window-contrast.png)
