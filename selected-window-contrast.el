@@ -25,10 +25,10 @@
 
 ;;; Commentary:
 
-;; Allow to set color (face) of background and text by comparing their
+;; Loop windows at frame, measure and adjust contrast. Allow to set
+;;  color (face) of background and text by comparing their
 ;;  brightness. This is useful for changing themes during the daytime
 ;;  and for highlighting selected window. Also working for modeline.
-;;  Just loop windows at frame and change colors.
 
 ;; Usage:
 
