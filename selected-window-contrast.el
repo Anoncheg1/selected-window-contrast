@@ -28,22 +28,23 @@
 ;; Loop windows at frame, measure and adjust contrast. Allow to set
 ;;  color (face) of background and text by comparing their
 ;;  brightness. This is useful for changing themes during the daytime
-;;  and for highlighting selected window. Also working for modeline.
+;;  (circadian package) and for highlighting selected window. Also
+;;  this works for modeline.
 
 ;; Usage:
 
 ;;  (require 'selected-window-contrast)
 ;;  ;; - increase contrast for selected window
-;;  (setopt selected-window-contrast-selected-magnitude-text 0.8)  ; default = 1
-;;  (setopt selected-window-contrast-selected-magnitude-background 0.9)  ; default = 1
+;;  (setopt selected-window-contrast-selected-magnitude-text 0.8)  ; default = 1.0
+;;  (setopt selected-window-contrast-selected-magnitude-background 0.9)  ; default = 1.0
 ;;  ;; - decrease conrtrast for other windows
-;;  (setopt selected-window-contrast-not-sel-magnitude-text 1.1)  ; default = 1
-;;  (setopt selected-window-contrast-not-sel-magnitude-background 1.1)  ; default = 1
+;;  (setopt selected-window-contrast-not-sel-magnitude-text 1.1)  ; default = 1.0
+;;  (setopt selected-window-contrast-not-sel-magnitude-background 1.1)  ; default = 1.0
 ;;  (add-hook 'buffer-list-update-hook 'selected-window-contrast-highlight-selected-window)
 
 ;; To increase contrast of selected modeline:
 
-;;  (selected-window-contrast-change-modeline 0.7 0.7)
+;;  (selected-window-contrast-change-modeline 0.7 0.7) ; increase contrast
 
 ;; How this works:
 ;;  1) We get color with ```face-attribute (selected-frame)``` for foreground and backgraound.
@@ -62,19 +63,19 @@
 Higher value decrease contrast between text and background.
 This value change contrast of text regarding to background."
   :group 'selected-window-contrast
-  :type 'float)
+  :type 'number)
 (defcustom selected-window-contrast-selected-magnitude-background 1
   "Selected window background."
   :group 'selected-window-contrast
-  :type 'float)
+  :type 'number)
 (defcustom selected-window-contrast-not-sel-magnitude-text 1.2
   "Not Selected window text."
   :group 'selected-window-contrast
-  :type 'float)
+  :type 'number)
 (defcustom selected-window-contrast-not-sel-magnitude-background 1.2
   "Not selected window background."
   :group 'selected-window-contrast
-  :type 'float)
+  :type 'number)
 
 
 (defun selected-window-contrast--get-current-colors ()
@@ -206,8 +207,8 @@ Argument MAGNITUDE-BACK float value to increase or decrease contrast."
                       (unless (or (eq sw w)
                                   (eq cbn (buffer-name (window-buffer w))))
                         (with-selected-window w
-                          (if (not (and (= 1 selected-window-contrast-selected-magnitude-text)
-                                        (= 1 selected-window-contrast-selected-magnitude-background)))
+                          (if (not (and (= 1 selected-window-contrast-not-sel-magnitude-text)
+                                        (= 1 selected-window-contrast-not-sel-magnitude-background)))
                               (selected-window-contrast-change-window
                                selected-window-contrast-not-sel-magnitude-text
                                selected-window-contrast-not-sel-magnitude-background)
