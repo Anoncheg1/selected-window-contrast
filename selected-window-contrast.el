@@ -89,9 +89,9 @@ This value change contrast of text regarding to background."
 HEX-COLOR should be a string in the format #RRGGBB or #RRRRGGGGBBBB.
 Optional argument DIGITS-PER-COMPONENT can be either 4 or 2 (the default);
 use the latter if you need a 24-bit specification of a color."
-  (or digits-per-component (setq digits-per-component (if (= (length hex-color) 6) 2 4)))
+
   (let* ((hex-color (substring hex-color 1))
-         ;; (digits-per-component (if (= (length hex-color) 6) 2 4))
+         (digits-per-component (or digits-per-component (if (= (length hex-color) 6) 2 4))) ; (if (= (length hex-color) 6) 2 4)
          (maxval (if (= digits-per-component 2) 255 65535)))
     (if (= digits-per-component 2)
         (list (/ (float (string-to-number (substring hex-color 0 2) 16)) maxval)
