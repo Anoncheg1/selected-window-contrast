@@ -30,8 +30,8 @@ Also working for modeline.
   ;; - set backgound color (optional)
   (set-face-attribute 'mode-line-active nil :background "cyan4")
   ;; - increate contrast
-  (selected-window-contrast-change-modeline 2 0.7)
-  ) ; C-x C-e
+  (selected-window-contrast-change-modeline 0.7 0.7)
+  ) ; press C-x C-e to execute and test
 ```
 # One time usage
 Change contrast in current buffer ``` (selected-window-contrast-change-window 0.7 0.7) ```
@@ -60,8 +60,6 @@ from https://emacs.stackexchange.com/questions/24630/is-there-a-way-to-change-co
 # screenshot
 ![](https://raw.githubusercontent.com/Anoncheg1/public-share/refs/heads/main/selected-window-contrast.png)
 
-# Selected window related packages
--
 # Other packages
 - Navigation in Dired, Packages, Buffers modes https://github.com/Anoncheg1/firstly-search
 - Search with Chinese https://github.com/Anoncheg1/pinyin-isearch
