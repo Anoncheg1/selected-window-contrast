@@ -60,6 +60,7 @@
 ;; Customize: M-x customize-group RET selected-window-contrast
 
 ;;; Code:
+(require 'color)
 
 ;; - configurable:
 (defcustom selected-window-contrast-selected-magnitude-text 1
