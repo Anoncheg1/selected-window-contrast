@@ -25,10 +25,10 @@
 
 ;;; Commentary:
 
-;; Loop windows at frame, measure and adjust contrast. Allow to set
+;; Loop windows at frame, measure and adjust contrast.  Allow to set
 ;;  color (face) of background and text by comparing their
-;;  brightness. This is useful for changing themes during the daytime
-;;  (circadian package) and for highlighting selected window. Also
+;;  brightness.  This is useful for changing themes during the daytime
+;;  (circadian package) and for highlighting selected window.  Also
 ;;  this works for modeline.
 
 ;; Usage:
@@ -198,6 +198,12 @@ Argument MAGNITUDE-BACK float value to increase or decrease contrast."
 
 
 (defun selected-window-contrast-highlight-selected-window ()
+  "Highlight not selected windows with a different background color.
+For for case when hook triggered from (reverse themes) before the
+new theme is fully loaded, that cause breaking contrast."
+   (run-with-idle-timer 0.001 nil 'selected-window-contrast-highlight-selected-window2))
+
+(defun selected-window-contrast-highlight-selected-window2 ()
   "Highlight not selected windows with a different background color."
   (let ((cbn (buffer-name (current-buffer)))
         (sw (selected-window)))
