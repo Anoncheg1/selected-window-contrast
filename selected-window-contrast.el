@@ -40,7 +40,11 @@
 ;;  ;; - decrease conrtrast for other windows
 ;;  (setopt selected-window-contrast-not-sel-magnitude-text 1.1)  ; default = 1.0
 ;;  (setopt selected-window-contrast-not-sel-magnitude-background 1.1)  ; default = 1.0
-;;  (add-hook 'buffer-list-update-hook 'selected-window-contrast-highlight-selected-window)
+;;  (add-hook 'buffer-list-update-hook #'selected-window-contrast-highlight-selected-window)
+;;  ;; - for case of call: $ emacsclient -c ~/file
+;;  (add-hook 'server-after-make-frame-hook
+;;            (lambda ()
+;;              (run-with-idle-timer 0.1 nil #'selected-window-contrast-highlight-selected-window)))
 
 ;; To increase contrast of selected modeline:
 
@@ -201,7 +205,7 @@ Argument MAGNITUDE-BACK float value to increase or decrease contrast."
   "Highlight not selected windows with a different background color.
 For for case when hook triggered from (reverse themes) before the
 new theme is fully loaded, that cause breaking contrast."
-   (run-with-idle-timer 0.001 nil 'selected-window-contrast-highlight-selected-window2))
+   (run-with-idle-timer 0.01 nil 'selected-window-contrast-highlight-selected-window2))
 
 (defun selected-window-contrast-highlight-selected-window2 ()
   "Highlight not selected windows with a different background color."

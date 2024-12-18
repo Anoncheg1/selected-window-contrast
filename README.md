@@ -15,7 +15,12 @@ Also working for modeline.
 (setopt selected-window-contrast-not-sel-magnitude-text 1.1)  ; default = 1
 (setopt selected-window-contrast-not-sel-magnitude-background 1.1)  ; default = 1
 
-(add-hook 'buffer-list-update-hook 'selected-window-contrast-highlight-selected-window)
+(add-hook 'buffer-list-update-hook #'selected-window-contrast-highlight-selected-window)
+;; - for case of call: $ emacsclient -c ~/file
+(add-hook 'server-after-make-frame-hook
+          (lambda ()
+            (run-with-idle-timer 0.1 nil #'selected-window-contrast-highlight-selected-window)))
+
 ```
 
 # Usage for modeline
