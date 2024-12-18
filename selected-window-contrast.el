@@ -219,14 +219,11 @@ new theme is fully loaded, that cause breaking contrast."
                                   (eq sw w)
                                   (eq cbn (buffer-name (window-buffer w))))
                         (with-selected-window w
-                          ;; (if (not (and (= 1 selected-window-contrast-not-sel-magnitude-text)
-                          ;;               (= 1 selected-window-contrast-not-sel-magnitude-background)))
                               (selected-window-contrast-change-window
                                selected-window-contrast-not-sel-magnitude-text
                                selected-window-contrast-not-sel-magnitude-background)
                             ;; else
                             (buffer-face-set 'default)))))
-      ;; )
 
       ;; - selected:
       (if (not (and (= 1 selected-window-contrast-selected-magnitude-text)
