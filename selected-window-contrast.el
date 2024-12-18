@@ -96,7 +96,7 @@ Optional argument DIGITS-PER-COMPONENT can be either 4 or 2 (the default);
 use the latter if you need a 24-bit specification of a color."
 
   (let* ((hex-color (substring hex-color 1))
-         (digits-per-component (or digits-per-component (if (= (length hex-color) 6) 2 4))) ; (if (= (length hex-color) 6) 2 4)
+         (digits-per-component (or digits-per-component (if (= (length hex-color) 6) 2 4)))
          (maxval (if (= digits-per-component 2) 255 65535)))
     (if (= digits-per-component 2)
         (list (/ (float (string-to-number (substring hex-color 0 2) 16)) maxval)
@@ -129,8 +129,6 @@ for background."
         (background-hsl (selected-window-contrast--hex-to-hsl background-color)))
     (let ((text-brightness (nth 2 text-hsl))
           (background-brightness (nth 2 background-hsl)))
-      ;; (print (list "debug" text-color background-color magnitude-text magnitude-back))
-      ;; (print (list "debug2" text-hsl text-brightness))
       ;; new-text-brightness = average + (average - background) / magnitude-text
       ;; new-back-brightness = average + (average - text) / magnitude-back
       (let ((average-brightness (/ (+ text-brightness background-brightness) 2)))
@@ -138,7 +136,6 @@ for background."
                                                             magnitude-text))) ;; (max 0 (min 1
               (new-background-brightness (- average-brightness (/ (- text-brightness average-brightness)
                                                                   magnitude-back)))) ;;  (max 0 (min 1
-          ;; (print (list text-hsl new-text-brightness background-hsl new-background-brightness))
           (list (color-hsl-to-rgb (nth 0 text-hsl)
                                   (nth 1 text-hsl)
                                   new-text-brightness)
