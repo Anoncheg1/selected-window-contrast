@@ -10,18 +10,19 @@
 
 ;; This file is not part of GNU Emacs.
 
-;; This program is free software; you can redistribute it and/or modify
-;; it under the terms of the GNU General Public License as published by
+;; This program is free software: you can redistribute it and/or modify
+;; it under the terms of the GNU Affero General Public License as published by
 ;; the Free Software Foundation, either version 3 of the License, or
 ;; (at your option) any later version.
 
 ;; This program is distributed in the hope that it will be useful,
 ;; but WITHOUT ANY WARRANTY; without even the implied warranty of
 ;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-;; GNU General Public License for more details.
+;; GNU Affero General Public License for more details.
 
-;; You should have received a copy of the GNU General Public License
-;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
+;; You should have received a copy of the GNU Affero General Public License
+;; along with this program.  If not,
+;; see <https://www.gnu.org/licenses/agpl-3.0.en.html>.
 
 ;;; Commentary:
 
@@ -197,13 +198,21 @@ Argument MAGNITUDE-BACK float value to increase or decrease contrast."
                           :background new-back)))))
 
 
-(defun selected-window-contrast-highlight-selected-window ()
+(defun selected-window-contrast-highlight-selected-window-timeout1 ()
   "Highlight not selected windows with a different background color.
+Timeout 0.01 sec.
 For for case when hook triggered from (reverse themes) before the
 new theme is fully loaded, that cause breaking contrast."
-   (run-with-idle-timer 0.01 nil 'selected-window-contrast-highlight-selected-window2))
+   (run-with-idle-timer 0.01 nil 'selected-window-contrast-highlight-selected-window))
 
-(defun selected-window-contrast-highlight-selected-window2 ()
+(defun selected-window-contrast-highlight-selected-window-timeout2 ()
+  "Highlight not selected windows with a different background color.
+Timeout 0.1 sec.
+For for case when hook triggered from (reverse themes) before the
+new theme is fully loaded, that cause breaking contrast."
+   (run-with-idle-timer 0.1 nil 'selected-window-contrast-highlight-selected-window))
+
+(defun selected-window-contrast-highlight-selected-window ()
   "Highlight not selected windows with a different background color."
   (let ((cbn (buffer-name (current-buffer)))
         (sw (selected-window)))
