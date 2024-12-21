@@ -1,11 +1,11 @@
-;;; selected-window-contrast.el --- Set contrast of text and background for window and modeline   -*- lexical-binding: t -*-
+;;; selected-window-contrast.el --- Set relative brightness of text-background for window and modeline   -*- lexical-binding: t -*-
 
 ;; Copyright (c) 2024 github.com/Anoncheg1,codeberg.org/Anoncheg
 
 ;; Author: github.com/Anoncheg1,codeberg.org/Anoncheg
 ;; Keywords:  color, contrast, selected, windows, faces, buffer
 ;; URL: https://github.com/Anoncheg1/selected-window-contrast
-;; Version: 0.0.1
+;; Version: 0.0.2
 ;; Package-Requires: ((emacs "29.3"))
 
 ;; This file is not part of GNU Emacs.
