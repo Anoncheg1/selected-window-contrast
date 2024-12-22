@@ -220,15 +220,15 @@ new theme is fully loaded, that cause breaking contrast."
       ;; - not selected:
       (walk-windows (lambda (w)
                       (unless (or (and (= 1 selected-window-contrast-not-sel-magnitude-text)
-                                        (= 1 selected-window-contrast-not-sel-magnitude-background))
+                                       (= 1 selected-window-contrast-not-sel-magnitude-background))
                                   (eq sw w)
                                   (eq cbn (buffer-name (window-buffer w))))
                         (with-selected-window w
-                              (selected-window-contrast-change-window
-                               selected-window-contrast-not-sel-magnitude-text
-                               selected-window-contrast-not-sel-magnitude-background)
-                            ;; else
-                            (buffer-face-set 'default)))))
+                          (buffer-face-set 'default)
+                          (selected-window-contrast-change-window
+                           selected-window-contrast-not-sel-magnitude-text
+                           selected-window-contrast-not-sel-magnitude-background)
+                          ))))
 
       ;; - selected:
       (if (not (and (= 1 selected-window-contrast-selected-magnitude-text)
