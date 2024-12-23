@@ -1,6 +1,6 @@
 # selected-window-contrast
 
-Allow to set color of background and text by comparing their brightness. This is useful for changing themes during the daytime (https://github.com/GuidoSchmidt/circadian) and for highlighting selected window. Just loop windows at frame and change colors.
+Allow to set color of background and text by comparing their brightness. This is useful for highlighting selected window that may have different themes during the daytime, [Circadian package](https://github.com/GuidoSchmidt/circadian). It just loop windows at frame and change colors.
 
 Also working for modeline.
 
@@ -61,6 +61,13 @@ from https://emacs.stackexchange.com/questions/24630/is-there-a-way-to-change-co
 
 # screenshot
 ![](https://raw.githubusercontent.com/Anoncheg1/public-share/refs/heads/main/selected-window-contrast.png)
+
+# Packages for highlighting window
+- https://melpa.org/#/selected-window-accent-mode
+- https://melpa.org/#/hiwin
+- https://melpa.org/#/solaire-mode
+- https://melpa.org/#/auto-dim-other-buffers
+
 
 # Other packages
 - Navigation in Dired, Packages, Buffers modes https://github.com/Anoncheg1/firstly-search

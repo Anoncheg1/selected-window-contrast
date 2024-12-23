@@ -4,7 +4,7 @@
 
 ;; Author: github.com/Anoncheg1,codeberg.org/Anoncheg
 ;; Keywords:  color, contrast, selected, windows, faces, buffer
-;; URL: https://github.com/Anoncheg1/selected-window-contrast
+;; URL: https://codeberg.org/Anoncheg/selected-window-contrast
 ;; Version: 0.0.4
 ;; Package-Requires: ((emacs "29.4"))
 
@@ -25,8 +25,8 @@
 ;; see <https://www.gnu.org/licenses/agpl-3.0.en.html>.
 
 ;;; Commentary:
-;; Loop windows at frame, measure and adjust contrast.  Allow to set
-;;  color (face) of background and text by comparing their
+;; It Loop windows at frame, measure and adjust contrast.  Allow to
+;;  set color (face) of background and text by comparing their
 ;;  brightness.
 ;; This is useful for changing themes during the daytime (circadian
 ;;  package) and for highlighting selected window.  Also this works
