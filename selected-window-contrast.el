@@ -210,8 +210,8 @@ new theme is fully loaded, that cause breaking contrast."
 (defun selected-window-contrast-highlight-selected-window-timeout2 ()
   "Highlight not selected windows with a different background color.
 Timeout 0.1 sec.
-For for case when hook triggered from (reverse themes) before the
-new theme is fully loaded, that cause breaking contrast."
+For case of opening new frame with new buffer by call:
+$ emacsclient -c ~/file"
   (run-with-idle-timer 0.1 nil #'selected-window-contrast-highlight-selected-window))
 
 (defun selected-window-contrast-highlight-selected-window ()
@@ -229,7 +229,8 @@ new theme is fully loaded, that cause breaking contrast."
                           (buffer-face-set 'default)
                           (selected-window-contrast-change-window
                            selected-window-contrast-not-sel-magnitude-text
-                           selected-window-contrast-not-sel-magnitude-background)))))
+                           selected-window-contrast-not-sel-magnitude-background))))
+                    -1 ) ; -1 means to not include minimuber
 
       ;; - selected:
       (if (not (and (= 1 selected-window-contrast-selected-magnitude-text)
