@@ -28,9 +28,10 @@
 
 ;; Loop windows at frame, measure and adjust contrast.  Allow to set
 ;;  color (face) of background and text by comparing their
-;;  brightness.  This is useful for changing themes during the daytime
-;;  (circadian package) and for highlighting selected window.  Also
-;;  this works for modeline.
+;;  brightness.
+;; This is useful for changing themes during the daytime (circadian
+;;  package) and for highlighting selected window.  Also this works
+;;  for modeline.
 
 ;; Usage:
 
@@ -118,7 +119,7 @@ Argument HEX-COLOR color."
 
 (defun selected-window-contrast--adjust-brightness (text-color background-color magnitude-text magnitude-back)
   "Adjust the brightness of the text and background colors.
-To be closer By the magnitude.  Return (foreground , background).
+To be closer By the magnitude.  Return (foreground, background).
 Argument TEXT-COLOR hex or name for color of text.  Argument
 BACKGROUND-COLOR tex or name for color of background.  Argument
 MAGNITUDE-TEXT value to increase or decrease contrast for text.
@@ -188,29 +189,28 @@ Argument MAGNITUDE-BACK float value to increase or decrease contrast."
              (message "backgound or foreground color is unspecified in active mode line.")
            ;; else
            (let* ((new-colors (selected-window-contrast--adjust-brightness fore
-                                                                         back
-                                                                         magnitude-text
-                                                                         magnitude-back))
-                  (new-fore (apply 'selected-window-contrast--rgb-to-hex (nth 0 new-colors)))
-                  (new-back (apply 'selected-window-contrast--rgb-to-hex (nth 1 new-colors))))
+                                                                           back
+                                                                           magnitude-text
+                                                                           magnitude-back))
+                  (new-fore (apply #'selected-window-contrast--rgb-to-hex (nth 0 new-colors)))
+                  (new-back (apply #'selected-window-contrast--rgb-to-hex (nth 1 new-colors))))
              (set-face-attribute 'mode-line-active nil
                           :foreground new-fore
                           :background new-back)))))
-
 
 (defun selected-window-contrast-highlight-selected-window-timeout1 ()
   "Highlight not selected windows with a different background color.
 Timeout 0.01 sec.
 For for case when hook triggered from (reverse themes) before the
 new theme is fully loaded, that cause breaking contrast."
-   (run-with-idle-timer 0.01 nil 'selected-window-contrast-highlight-selected-window))
+  (run-with-idle-timer 0.01 nil #'selected-window-contrast-highlight-selected-window))
 
 (defun selected-window-contrast-highlight-selected-window-timeout2 ()
   "Highlight not selected windows with a different background color.
 Timeout 0.1 sec.
 For for case when hook triggered from (reverse themes) before the
 new theme is fully loaded, that cause breaking contrast."
-   (run-with-idle-timer 0.1 nil 'selected-window-contrast-highlight-selected-window))
+  (run-with-idle-timer 0.1 nil #'selected-window-contrast-highlight-selected-window))
 
 (defun selected-window-contrast-highlight-selected-window ()
   "Highlight not selected windows with a different background color."
@@ -227,8 +227,7 @@ new theme is fully loaded, that cause breaking contrast."
                           (buffer-face-set 'default)
                           (selected-window-contrast-change-window
                            selected-window-contrast-not-sel-magnitude-text
-                           selected-window-contrast-not-sel-magnitude-background)
-                          ))))
+                           selected-window-contrast-not-sel-magnitude-background)))))
 
       ;; - selected:
       (if (not (and (= 1 selected-window-contrast-selected-magnitude-text)
