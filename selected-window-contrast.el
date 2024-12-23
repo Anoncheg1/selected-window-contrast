@@ -5,8 +5,8 @@
 ;; Author: github.com/Anoncheg1,codeberg.org/Anoncheg
 ;; Keywords:  color, contrast, selected, windows, faces, buffer
 ;; URL: https://github.com/Anoncheg1/selected-window-contrast
-;; Version: 0.0.3
-;; Package-Requires: ((emacs "29.3"))
+;; Version: 0.0.4
+;; Package-Requires: ((emacs "29.4"))
 
 ;; This file is not part of GNU Emacs.
 
