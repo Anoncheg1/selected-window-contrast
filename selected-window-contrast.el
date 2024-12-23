@@ -1,4 +1,4 @@
-;;; selected-window-contrast.el --- Relative brightness for text-background in window and modeline   -*- lexical-binding: t -*-
+;;; selected-window-contrast.el --- Highlight by brightness of text and background   -*- lexical-binding: t -*-
 
 ;; Copyright (c) 2024 github.com/Anoncheg1,codeberg.org/Anoncheg
 
