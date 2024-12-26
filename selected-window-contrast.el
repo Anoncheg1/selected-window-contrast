@@ -212,7 +212,7 @@ new theme is fully loaded, that cause breaking contrast."
 Timeout 0.1 sec.
 For case of opening new frame with new buffer by call:
 $ emacsclient -c ~/file"
-  (run-with-idle-timer 0.1 nil #'selected-window-contrast-highlight-selected-window))
+  (run-with-idle-timer 0.4 nil #'selected-window-contrast-highlight-selected-window))
 
 (defun selected-window-contrast-highlight-selected-window ()
   "Highlight not selected windows with a different background color."
