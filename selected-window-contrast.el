@@ -43,9 +43,6 @@
 ;;  (setopt selected-window-contrast-not-sel-magnitude-background 1.1)
 ;;  (add-hook 'buffer-list-update-hook
 ;;           #'selected-window-contrast-highlight-selected-window)
-;;  ;; - for case of call: $ emacsclient -c ~/file
-;;  (add-hook 'server-after-make-frame-hook
-;;           #'selected-window-contrast-highlight-selected-window)
 
 ;; To increase contrast of selected modeline:
 
@@ -205,7 +202,9 @@ Argument MAGNITUDE-BACK float value to increase or decrease contrast."
 Timeout 0.01 sec.
 For for case when hook triggered from (reverse themes) before the
 new theme is fully loaded, that cause breaking contrast."
-  (run-with-idle-timer 0.01 nil #'selected-window-contrast-highlight-selected-window))
+  (selected-window-contrast-highlight-selected-window)
+  ;; - fix for emacsclient -c --eval "(pop-to-buffer-same-window (dired-noselect ..."
+  (run-with-idle-timer 1 nil #'selected-window-contrast-highlight-selected-window))
 
 (defun selected-window-contrast-highlight-selected-window-timeout2 ()
   "Highlight not selected windows with a different background color.
