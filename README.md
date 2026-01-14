@@ -1,6 +1,12 @@
-# selected-window-contrast
+![build](https://github.com/Anoncheg1/selected-window-contrast/workflows/melpazoid/badge.svg)
+[![MELPA](https://melpa.org/packages/selected-window-contrast-badge.svg)](http://melpa.org/#/selected-window-contrast)
+[![MELPA Stable](https://stable.melpa.org/packages/selected-window-contrast-badge.svg)](https://stable.melpa.org/#/selected-window-contrast)
 
-Allow to set color of background and text by comparing their brightness. This is useful for highlighting selected window that may have different themes during the daytime, [Circadian package](https://github.com/GuidoSchmidt/circadian). It just loop windows at frame and change colors.
+
+# selected-window-contrast - highlighter for current window.
+
+**Version 0.1**
+Emacs package, allow to set color of background and text by comparing their brightness. This is useful for highlighting selected window that may have different themes during the daytime, [Circadian package](https://github.com/GuidoSchmidt/circadian). It just loop windows at frame and change colors.
 
 Also working for modeline.
 
@@ -58,6 +64,7 @@ Change contrast in current buffer ``` (selected-window-contrast-change-window 0.
 from https://emacs.stackexchange.com/questions/24630/is-there-a-way-to-change-color-of-active-windows-fringe
 
 # screenshot
+At left - selected window.
 ![](https://raw.githubusercontent.com/Anoncheg1/public-share/refs/heads/main/selected-window-contrast.png)
 
 # Packages for highlighting window
@@ -66,7 +73,7 @@ from https://emacs.stackexchange.com/questions/24630/is-there-a-way-to-change-co
 - https://melpa.org/#/solaire-mode
 - https://melpa.org/#/auto-dim-other-buffers
 
-* Other packages
+# Other packages
 - Navigation in Dired, Packages, Buffers modes https://github.com/Anoncheg1/firstly-search
 - Search with Chinese	https://github.com/Anoncheg1/pinyin-isearch
 - Ediff fix		https://github.com/Anoncheg1/ediffnw
@@ -79,7 +86,7 @@ from https://emacs.stackexchange.com/questions/24630/is-there-a-way-to-change-co
 - outline.el usage		https://github.com/Anoncheg1/emacs-outline-it
 - Call LLMs and AI agents from Org-mode ai block. https://github.com/Anoncheg1/emacs-oai
 
-* Donate, sponsor author
+# Donate, sponsor author
 You can sponsor author crypto money directly with crypto currencies:
 - BTC (Bitcoin) address: 1CcDWSQ2vgqv5LxZuWaHGW52B9fkT5io25
 - USDT (Tether) address: TVoXfYMkVYLnQZV3mGZ6GvmumuBfGsZzsN
