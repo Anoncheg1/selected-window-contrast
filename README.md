@@ -66,10 +66,21 @@ from https://emacs.stackexchange.com/questions/24630/is-there-a-way-to-change-co
 - https://melpa.org/#/solaire-mode
 - https://melpa.org/#/auto-dim-other-buffers
 
-
-# Other packages
+* Other packages
 - Navigation in Dired, Packages, Buffers modes https://github.com/Anoncheg1/firstly-search
-- Search with Chinese https://github.com/Anoncheg1/pinyin-isearch
-- Ediff fix https://github.com/Anoncheg1/ediffnw
-- Dired history https://github.com/Anoncheg1/dired-hist
-- Russian celendar https://github.com/Anoncheg1/emacs-russian-calendar
+- Search with Chinese	https://github.com/Anoncheg1/pinyin-isearch
+- Ediff fix		https://github.com/Anoncheg1/ediffnw
+- Dired history	https://github.com/Anoncheg1/dired-hist
+- Selected window contrast	https://github.com/Anoncheg1/selected-window-contrast
+- Copy link to clipboard	https://github.com/Anoncheg1/emacs-org-links
+- Solution for "callback hell"	https://github.com/Anoncheg1/emacs-async1
+- Restore buffer state		https://github.com/Anoncheg1/emacs-unmodified-buffer1
+- Russian celendar		https://github.com/Anoncheg1/emacs-russian-calendar
+- outline.el usage		https://github.com/Anoncheg1/emacs-outline-it
+- Call LLMs and AI agents from Org-mode ai block. https://github.com/Anoncheg1/emacs-oai
+
+* Donate, sponsor author
+You can sponsor author crypto money directly with crypto currencies:
+- BTC (Bitcoin) address: 1CcDWSQ2vgqv5LxZuWaHGW52B9fkT5io25
+- USDT (Tether) address: TVoXfYMkVYLnQZV3mGZ6GvmumuBfGsZzsN
+- TON (Telegram) address: UQC8rjJFCHQkfdp7KmCkTZCb5dGzLFYe2TzsiZpfsnyTFt9D
