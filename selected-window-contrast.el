@@ -128,8 +128,8 @@ use the latter if you need a 24-bit specification of a color."
 Argument HEX-COLOR color."
   (let ((rgb (if (string-match "^#[0-9a-fA-F]+$" hex-color)
                  (selected-window-contrast--hex-to-rgb hex-color)
-                 ;; else
-                 (color-name-to-rgb hex-color))))
+               ;; else
+               (color-name-to-rgb hex-color))))
     (color-rgb-to-hsl (/ (nth 0 rgb) 65535.0)
                       (/ (nth 1 rgb) 65535.0)
                       (/ (nth 2 rgb) 65535.0))))

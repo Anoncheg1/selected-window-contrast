@@ -54,16 +54,65 @@
     ;; (should (equal t (selected-window-contrast-change-modeline 1.2 1.2)))
     ))
 
-;; (ert-deftest selected-window-contrast-tests--a4 ()
-;;   (with-temp-buffer
+(ert-deftest selected-window-contrast-tests--hex-to-rgb ()
+  (should (equal (selected-window-contrast--hex-to-rgb "#ff0000")
+                 (list 1.0 0.0 0.0)))
 
-;;     (let ((text-color "white")
-;;           (background-color "black"))
-;;       (print (selected-window-contrast--adjust-brightness text-color background-color))
-;;       (print (selected-window-contrast--adjust-brightness-2 text-color background-color))
-;;       ;; (should (equal (selected-window-contrast--adjust-brightness text-color background-color)
-;;       ;;                (selected-window-contrast--adjust-brightness-2 text-color background-color))))
-;;     )
+  ;; 24-bit, pure green
+  (should (equal (selected-window-contrast--hex-to-rgb "#00ff00")
+                 (list 0.0 1.0 0.0)))
+
+  ;; 24-bit, black
+  (should (equal (selected-window-contrast--hex-to-rgb "#000000")
+                 (list 0.0 0.0 0.0)))
+
+  ;; 24-bit, white
+  (should (equal (selected-window-contrast--hex-to-rgb "#ffffff")
+                 (list 1.0 1.0 1.0)))
+
+  ;; 48-bit color, cyan (#0000ffff0000)
+  (should (equal (selected-window-contrast--hex-to-rgb "#0000ffff0000" 4)
+                 (list 0.0 1.0 0.0)))
+
+  ;; 24-bit, with explicit digits-per-component = 2
+  (should (equal (selected-window-contrast--hex-to-rgb "#ff0000" 2)
+                 (list 1.0 0.0 0.0)))
+
+  ;; Test edge: different uppercase/lowercase
+  (should (equal (selected-window-contrast--hex-to-rgb "#Ff00FF")
+                 (list 1.0 0.0 1.0))))
+
+(ert-deftest selected-window-contrast-tests--hex-to-hsl ()
+  ;; Typical hex: red
+  (should (equal (selected-window-contrast--hex-to-hsl "#ff0000")
+                 (color-rgb-to-hsl (/ 1.0 65535.0) 0.0 0.0)))
+
+  ;; 48-bit hex: green (#0000ffff0000)
+  (let ((rgb (selected-window-contrast--hex-to-rgb "#0000ffff0000" 4)))
+    (should (equal (selected-window-contrast--hex-to-hsl "#0000ffff0000")
+                   (apply #'color-rgb-to-hsl (mapcar (lambda (x) (/ x 65535.0)) rgb)))))
+
+  ;; Named color: red
+  (should (equal (selected-window-contrast--hex-to-hsl "red")
+                 (color-rgb-to-hsl (/ (nth 0 (color-name-to-rgb "red")) 65535.0)
+                                   (/ (nth 1 (color-name-to-rgb "red")) 65535.0)
+                                   (/ (nth 2 (color-name-to-rgb "red")) 65535.0))))
+
+  ;; Named color: chartreuse
+  (should (equal (selected-window-contrast--hex-to-hsl "chartreuse")
+                 (color-rgb-to-hsl (/ (nth 0 (color-name-to-rgb "chartreuse")) 65535.0)
+                                   (/ (nth 1 (color-name-to-rgb "chartreuse")) 65535.0)
+                                   (/ (nth 2 (color-name-to-rgb "chartreuse")) 65535.0)))))
+;; (ert-deftest selected-window-contrast-tests--a4 ()
+  ;; (with-temp-buffer
+
+  ;;   (let ((text-color "white")
+  ;;         (background-color "black"))
+  ;;     (print (selected-window-contrast--adjust-brightness text-color background-color))
+  ;;     (print (selected-window-contrast--adjust-brightness-2 text-color background-color))
+  ;;     ;; (should (equal (selected-window-contrast--adjust-brightness text-color background-color)
+  ;;     ;;                (selected-window-contrast--adjust-brightness-2 text-color background-color))))
+  ;;   )
 ;; )
 
 (provide 'selected-window-contrast-tests)
