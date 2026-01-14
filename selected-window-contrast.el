@@ -179,23 +179,27 @@ Argument MAGNITUDE-TEXT float value to increase or decrease contrast.
 Argument MAGNITUDE-BACK float value to increase or decrease contrast."
   (let* ((back (face-attribute 'mode-line-active :background))
          (fore (face-attribute 'mode-line-active :foreground)))
-    (when (eq back 'unspecified)
+    (when (or (eq back 'unspecified) (eq back 'unspecified-bg))
       (setq back (face-attribute 'default :background)))
+    ;; (print (list fore back))
     (when (eq fore 'unspecified)
       (setq fore (face-attribute 'default :foreground)))
 
-         (if (or (eq back 'unspecified) (eq fore 'unspecified))
-             (message "backgound or foreground color is unspecified in active mode line.")
-           ;; else
-           (let* ((new-colors (selected-window-contrast--adjust-brightness fore
-                                                                           back
-                                                                           magnitude-text
-                                                                           magnitude-back))
-                  (new-fore (apply #'selected-window-contrast--rgb-to-hex (nth 0 new-colors)))
-                  (new-back (apply #'selected-window-contrast--rgb-to-hex (nth 1 new-colors))))
-             (set-face-attribute 'mode-line-active nil
-                          :foreground new-fore
-                          :background new-back)))))
+    (if (or (eq back 'unspecified)
+            (eq back 'unspecified-bg)
+            (eq fore 'unspecified))
+        (message "backgound or foreground color is unspecified in active mode line.")
+      ;; else
+      (let* ((new-colors (selected-window-contrast--adjust-brightness fore
+                                                                      back
+                                                                      magnitude-text
+                                                                      magnitude-back))
+             (new-fore (apply #'selected-window-contrast--rgb-to-hex (nth 0 new-colors)))
+             (new-back (apply #'selected-window-contrast--rgb-to-hex (nth 1 new-colors))))
+        (set-face-attribute 'mode-line-active nil
+                            :foreground new-fore
+                            :background new-back)
+        t))))
 
 (defun selected-window-contrast-highlight-selected-window-timeout1 ()
   "Highlight not selected windows with a different background color.

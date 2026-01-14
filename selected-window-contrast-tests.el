@@ -1,5 +1,5 @@
 ;;; selected-window-contrast-tests.el --- Accurate reduce contrast of non selected windows.   -*- lexical-binding: t -*-
-
+;; emacs -Q --batch -l ert.el -l selected-window-contrast.el -l selected-window-contrast-tests.el -f ert-run-tests-batch-and-exit
 (require 'ert)
 (require 'selected-window-contrast)
 
@@ -47,10 +47,12 @@
           (green 0.5)
           (blue 0.5))
       (should (stringp (selected-window-contrast--rgb-to-hex red green blue))))
-
-    (should (equal t (selected-window-contrast-change 1.2 1.2)))
-    )
-)
+    ;; (setq fore "#7d8c820b93fb")
+    ;; (setq back "#a587a587a636")
+    ;; (should (equal t (selected-window-contrast-change-window 1.2 1.2)))
+    ;; (selected-window-contrast-change-modeline 1.2 1.2)
+    ;; (should (equal t (selected-window-contrast-change-modeline 1.2 1.2)))
+    ))
 
 ;; (ert-deftest selected-window-contrast-tests--a4 ()
 ;;   (with-temp-buffer

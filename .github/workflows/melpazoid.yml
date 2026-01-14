@@ -1,17 +1,18 @@
+# -*- fill-column: 120; -*-
 # melpazoid <https://github.com/riscy/melpazoid> build checks.
 
 # If your package is on GitHub, enable melpazoid's checks by copying this file
 # to .github/workflows/melpazoid.yml and modifying RECIPE and EXIST_OK below.
 
 name: melpazoid
-on: [push, pull_request]
+'on': [push, pull_request]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Get repo to access in conteiner
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
       - name: Set up Python 3.12
@@ -21,14 +22,39 @@ jobs:
       - name: Install
         run: |
           python -m pip install --upgrade pip
-          sudo apt-get install emacs && emacs --version
+          sudo apt-get install emacs-nox && emacs --version
           git clone https://github.com/riscy/melpazoid.git ~/melpazoid
           pip install ~/melpazoid
+      - name: Tests
+        run: |
+         emacs -Q --batch -l ert.el -l selected-window-contrast.el -l selected-window-contrast-tests.el -f ert-run-tests-batch-and-exit
       - name: Run
         env:
           LOCAL_REPO: ${{ github.workspace }}
           # RECIPE is your recipe as written for MELPA:
           RECIPE: (selected-window-contrast :fetcher github :repo "Anoncheg1/selected-window-contrast")
           # set this to false (or remove it) if the package isn't on MELPA:
-          # EXIST_OK: false
-        run: echo $GITHUB_REF && make -C ~/melpazoid
+          EXIST_OK: true
+        run: |
+          if make -C ~/melpazoid |& tee output.log ; then
+            [ $? -ne 0 ] && { echo "Error detected, failing workflow"; exit 1; }
+            if grep -v 'Warning: argument ' output.log | grep -q "Warning"; then
+              echo "Warnings detected, failing workflow"
+              exit 1
+            fi
+            if grep -q "Warning" output.log ; then
+              echo "Warnings detected, failing workflow"
+              exit 1
+            fi
+            if grep -q ': error: ' output.log ; then
+              echo "Error detected, failing workflow"
+              exit 1
+            fi
+            if grep -q ' with checkdoc ' output.log ; then
+              echo "Checkdoc warning detected, failing workflow"
+              exit 1
+            fi
+          else
+            echo "Make command failed, failing workflow"
+            exit 1
+          fi
