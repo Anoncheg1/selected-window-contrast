@@ -59,9 +59,11 @@
 
 ;; 1) ("swc--get-current-colors" ("WhiteSmoke" "black")
 ;; 2)
-;; ("swc--hex-to-hsl rgb" (0.9607843137254902 0.9607843137254902 0.9607843137254902) "WhiteSmoke")
+;; ("swc--hex-to-hsl rgb" (0.9607843137254902 0.9607843137254902 0.9607843137254902)
+;;    "WhiteSmoke")
 ;; ("swc--hex-to-hsl rgb" (0.0 0.0 0.0) "black")
-;; ("swc--adjust-brightness hsl" "WhiteSmoke": (0.0 0.0 1.46606288811397e-05) "black": (0.0 0.0 0.0))
+;; ("swc--adjust-brightness hsl" "WhiteSmoke": (0.0 0.0 1.46606288811397e-05)
+;;     "black": (0.0 0.0 0.0))
 ;; ("swc--adjust-brightness av b" 7.33031444056985e-06)
 ;; 7.33031444056985e-06
 ;; ("swc--adjust-brightness newt newb" 1.0e+INF -6.597282996512864e-05)
@@ -69,9 +71,11 @@
 
 ;; ("swc--get-current-colors" ("#383a42" "#fafafa"))
 
-;; ("swc--hex-to-hsl" (0.2196078431372549 0.22745098039215686 0.25882352941176473) "#383a42")
+;; ("swc--hex-to-hsl" (0.2196078431372549 0.22745098039215686 0.25882352941176473)
+;;      "#383a42")
 
-;; ("swc--hex-to-hsl" (0.9803921568627451 0.9803921568627451 0.9803921568627451) "#fafafa")
+;; ("swc--hex-to-hsl" (0.9803921568627451 0.9803921568627451 0.9803921568627451)
+;;      "#fafafa")
 
 ;; ("swc--adjust-brightness hsl" (0.6333333333333334
 ;; 0.0819672131147542 3.650197394896007e-06) (0.0 0.0
@@ -123,8 +127,6 @@ This value change contrast of text regarding to background."
 (defun selected-window-contrast-old--get-current-colors ()
   "Get current text and background color of default face.
 Returns list: (text background), both strings."
-  ;; (print (list "selected-window-contrast-old--get-current-colors" (list (face-attribute 'default :foreground (selected-frame))
-  ;;                                              (face-attribute 'default :background (selected-frame)))))
   (list (face-attribute 'default :foreground (selected-frame))
         (face-attribute 'default :background (selected-frame))))
 
@@ -210,7 +212,6 @@ for background."
                                                             magnitude-text))) ;; (max 0 (min 1
               (new-background-brightness (- average-brightness (/ (- text-brightness average-brightness)
                                                                   magnitude-back)))) ;;  (max 0 (min 1
-          ;; (print (list "selected-window-contrast-old--adjust-brightness newt newb" new-text-brightness new-background-brightness))
           (list (color-hsl-to-rgb (nth 0 text-hsl)
                                   (nth 1 text-hsl)
                                   new-text-brightness)
@@ -235,7 +236,6 @@ Argument BLUE color."
   "Apply the new text and background colors.
 Argument TEXT-COLOR rgb color.
 Argument BACKGROUND-COLOR rgb color."
-  ;; (print (list "selected-window-contrast-old--apply-new-colors text-color background-color" text-color background-color))
   (let ((fg (selected-window-contrast-old--rgb-to-hex (nth 0 text-color) (nth 1 text-color) (nth 2 text-color)))
         (bg (selected-window-contrast-old--rgb-to-hex (nth 0 background-color) (nth 1 background-color) (nth 2 background-color))))
     ;; (print (list "selected-window-contrast-old--apply-new-colors bg fg" bg fg))
