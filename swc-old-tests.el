@@ -1,5 +1,5 @@
 ;;; swc-old-tests.el --- Accurate reduce contrast of non selected windows.   -*- lexical-binding: t -*-
-;; emacs -Q --batch -l ert.el -l selected-window-contrast-old.el -l swc-tests.el -f ert-run-tests-batch-and-exit
+;; emacs -Q --batch -l ert.el -l selected-window-contrast-old.el -l swc-old-tests.el -f ert-run-tests-batch-and-exit
 ;; OR
 ;; (eval-buffer)
 ;; (ert t)
