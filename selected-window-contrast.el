@@ -47,7 +47,8 @@
 ;;   (setopt selected-window-contrast-bg-others 0.8)
 ;;   (setopt selected-window-contrast-contrast-text-selected 0.7)
 ;;   (setopt selected-window-contrast-contrast-text-others 0.3)
-;;   (add-hook 'buffer-list-update-hook #'selected-window-contrast-highlight-selected-window))
+;;   (add-hook 'buffer-list-update-hook
+;;             #'selected-window-contrast-highlight-selected-window))
 
 
 ;; How this works:
