@@ -43,10 +43,10 @@
 
 ;; (add-to-list 'load-path "path_to/selected-window-contrast") ; optional
 ;; (when (require 'selected-window-contrast nil 'noerror)
-;;   (setopt selected-window-contrast-bg-selected 0.9)
-;;   (setopt selected-window-contrast-bg-others 0.8)
-;;   (setopt selected-window-contrast-contrast-text-selected 0.7)
-;;   (setopt selected-window-contrast-contrast-text-others 0.3)
+;;   (setopt selected-window-contrast-bg-selected 0.95)
+;;   (setopt selected-window-contrast-bg-others 0.7)
+;;   (setopt selected-window-contrast-contrast-text-selected 0.9)
+;;   (setopt selected-window-contrast-contrast-text-others 0.6)
 ;;   (add-hook 'buffer-list-update-hook
 ;;             #'selected-window-contrast-highlight-selected-window))
 
@@ -59,7 +59,7 @@
 ;;  4) convert color to RGB, then to HEX
 ;;  5) apply color
 
-;; Customize: M-x customize-group RET swc
+;; Customize: M-x customize-group RET selected-window-contrast
 
 ;; Donate:
 ;; - BTC (Bitcoin) address: 1CcDWSQ2vgqv5LxZuWaHGW52B9fkT5io25
