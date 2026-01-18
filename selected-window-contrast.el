@@ -41,19 +41,14 @@
 
 ;; Usage:
 
-;;  (require 'swc)
-;;  ;; - increase contrast for selected window (default = 1.0)
-;;  (setopt selected-window-contrast-bg-selected-magnitude-text 0.8)
-;;  (setopt selected-window-contrast-bg-selected-magnitude-background 0.9)
-;;  ;; - decrease conrtrast for other windows (default = 1.0)
-;;  (setopt selected-window-contrast-not-sel-magnitude-text 1.1)
-;;  (setopt selected-window-contrast-not-sel-magnitude-background 1.1)
-;;  (add-hook 'buffer-list-update-hook
-;;           #'selected-window-contrast-highlight-selected-window)
+;; (add-to-list 'load-path "path_to/selected-window-contrast") ; optional
+;; (when (require 'selected-window-contrast nil 'noerror)
+;;   (setopt selected-window-contrast-bg-selected 0.9)
+;;   (setopt selected-window-contrast-bg-others 0.8)
+;;   (setopt selected-window-contrast-contrast-text-selected 0.7)
+;;   (setopt selected-window-contrast-contrast-text-others 0.3)
+;;   (add-hook 'buffer-list-update-hook #'selected-window-contrast-highlight-selected-window))
 
-;; To increase contrast of selected modeline:
-
-;;  (selected-window-contrast-change-modeline 0.7 0.7)
 
 ;; How this works:
 ;;  1) We get color with `face-attribute' `selected-frame' for
@@ -80,7 +75,6 @@
 ;; - Restore buffer state	https://github.com/Anoncheg1/emacs-unmodified-buffer1
 ;; - outline.el usage		https://github.com/Anoncheg1/emacs-outline-it
 ;; - Call LLMs & AIfrom Org-mode block.  https://github.com/Anoncheg1/emacs-oai
-
 
 ;;; Code:
 ;; Touch: Global variables bound deep is not good, it is a type of the inversion of control.
