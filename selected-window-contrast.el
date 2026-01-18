@@ -478,8 +478,8 @@ or decrease contrast."
                                                back
                                                contrast-background
                                                contrast-text))
-             (new-fore (apply #'selected-window-contrast-rgb-to-hex (nth 0 new-colors)))
-             (new-back (apply #'selected-window-contrast-rgb-to-hex (nth 1 new-colors))))
+             (new-fore (apply #'selected-window-contrast--rgb-to-hex (nth 0 new-colors)))
+             (new-back (apply #'selected-window-contrast--rgb-to-hex (nth 1 new-colors))))
         (set-face-attribute 'mode-line-active nil
                             :foreground new-fore
                             :background new-back)

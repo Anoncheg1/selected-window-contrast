@@ -6,7 +6,6 @@
 ;; URL: https://codeberg.org/Anoncheg/selected-window-contrast
 ;; Version: 0.1
 ;; Created: 11 dec 2024
-;; Package-Requires: ((emacs "29.4"))
 ;; SPDX-License-Identifier: AGPL-3.0-or-later
 
 ;;; License
@@ -74,7 +73,9 @@
 
 ;; ("swc--hex-to-hsl" (0.9803921568627451 0.9803921568627451 0.9803921568627451) "#fafafa")
 
-;; ("swc--adjust-brightness hsl" (0.6333333333333334 0.0819672131147542 3.650197394896007e-06) (0.0 0.0 1.495982538891806e-05))
+;; ("swc--adjust-brightness hsl" (0.6333333333333334
+;; 0.0819672131147542 3.650197394896007e-06) (0.0 0.0
+;; 1.495982538891806e-05))
 
 
 ;; Customize: M-x customize-group RET swc
@@ -148,7 +149,8 @@ Returns list: (text background), both strings."
 (defun selected-window-contrast-old--hex-to-rgb (hex-color &optional digits-per-component)
   "Return RGB values for the color specified by HEX-COLOR.
 HEX-COLOR should be a string in the format #RRGGBB or #RRRRGGGGBBBB.
-Optional argument DIGITS-PER-COMPONENT can be either 4 or 2 (the default)."
+Optional argument DIGITS-PER-COMPONENT can be either 4 or 2 (the
+default)."
   (unless (and (stringp hex-color) (string-prefix-p "#" hex-color))
     (error "HEX-COLOR must be a string starting with '#'"))
   (let* ((hex-str (substring hex-color 1))
@@ -218,7 +220,7 @@ for background."
 
 (defun selected-window-contrast-old--rgb-to-hex (red green blue)
   "Convert RGB to hex.
-0.7 0 0 -> #ffff00000000, color-rgb-to-hex give #b33200000000
+0.7 0 0 -> #ffff00000000, `color-rgb-to-hex' give #b33200000000
 Argument RED color.
 Argument GREEN color.
 Argument BLUE color."
