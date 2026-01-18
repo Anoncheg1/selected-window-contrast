@@ -434,27 +434,26 @@ Works on both dark (light text/dark bg) and light (dark text/light bg) themes."
               (when (and contrast-text
                          (or (not (numberp contrast-text))
                              (not (<= 0 contrast-text 1))))
-                (message "contrast-text must be floats in [0,1]"))))
-  (let* ((current-colors (selected-window-contrast--get-current-colors))
-         (new-colors (selected-window-contrast-adjust-contrast (nth 0 current-colors)
-                                           (nth 1 current-colors)
-                                           contrast-background
-                                           contrast-text)))
-    ;; current-colors new-colors
-    ;; (print (list "selected-window-contrast-change-window current-colors new-colors" contrast-background contrast-text))
-    (let ((background-rgb (nth 1 new-colors))
-          (text-rgb (nth 0 new-colors)))
-      (if (and contrast-background contrast-text)
-          ;; :foreground (selected-window-contrast--rgb-to-hex text-rgb)
-          (buffer-face-set (list :foreground (selected-window-contrast--rgb-to-hex text-rgb)
-                                 :background (selected-window-contrast--rgb-to-hex background-rgb)))
-        ;; else
-        (when contrast-text
-          (buffer-face-set (list :foreground (selected-window-contrast--rgb-to-hex text-rgb)
-                                 :background (face-attribute 'default :background))))
-        (when contrast-background
-          (buffer-face-set (list :foreground (face-attribute 'default :foreground)
-                                 :background (selected-window-contrast--rgb-to-hex background-rgb))))))))
+                (message "contrast-text must be floats in [0,1]")))
+    (let* ((current-colors (selected-window-contrast--get-current-colors))
+           (new-colors (selected-window-contrast-adjust-contrast (nth 0 current-colors)
+                                                                 (nth 1 current-colors)
+                                                                 contrast-background
+                                                                 contrast-text)))
+      ;; (print (list "selected-window-contrast-change-window current-colors new-colors" contrast-background contrast-text))
+      (let ((background-rgb (nth 1 new-colors))
+            (text-rgb (nth 0 new-colors)))
+        (if (and contrast-background contrast-text)
+            ;; :foreground (selected-window-contrast--rgb-to-hex text-rgb)
+            (buffer-face-set (list :foreground (selected-window-contrast--rgb-to-hex text-rgb)
+                                   :background (selected-window-contrast--rgb-to-hex background-rgb)))
+          ;; else
+          (when contrast-text
+            (buffer-face-set (list :foreground (selected-window-contrast--rgb-to-hex text-rgb)
+                                   :background (face-attribute 'default :background))))
+          (when contrast-background
+            (buffer-face-set (list :foreground (face-attribute 'default :foreground)
+                                   :background (selected-window-contrast--rgb-to-hex background-rgb)))))))))
 
       ;; (selected-window-contrast-apply-new-colors-rgb (nth 0 new-colors) (nth 1 new-colors)))))
 
