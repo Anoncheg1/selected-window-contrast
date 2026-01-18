@@ -34,22 +34,16 @@
 ;;  package) and for highlighting selected window.  Also this works
 ;;  for modeline.
 
-;; Known issue: if you use several themes with different contrast you
-;; should set both variables `selected-window-contrast-text-other' and
-;; `selected-window-contrast-bg-selected'
-
-
 ;; Usage:
 
 ;; (add-to-list 'load-path "path_to/selected-window-contrast") ; optional
 ;; (when (require 'selected-window-contrast nil 'noerror)
 ;;   (setopt selected-window-contrast-bg-selected 0.95)
-;;   (setopt selected-window-contrast-bg-others 0.7)
-;;   (setopt selected-window-contrast-contrast-text-selected 0.9)
-;;   (setopt selected-window-contrast-contrast-text-others 0.6)
+;;   (setopt selected-window-contrast-bg-others 0.75)
+;;   (setopt selected-window-contrast-text-selected 0.9)
+;;   (setopt selected-window-contrast-text-others 0.6)
 ;;   (add-hook 'buffer-list-update-hook
 ;;             #'selected-window-contrast-highlight-selected-window))
-
 
 ;; How this works:
 ;;  1) We get color with `face-attribute' `selected-frame' for
@@ -98,13 +92,13 @@ in [0-1] range."
   :type '(choice (number :tag "contrast [0-1].")
                  (const :tag "Don't change default contrast of theme." nil)))
 
-(defcustom selected-window-contrast-contrast-text-selected nil
+(defcustom selected-window-contrast-text-selected nil
   "Non-nil used to set not selected windows text contrast in [0-1] range."
   :group 'swc2
   :type '(choice (number :tag "Text contrast [0-1].")
                  (const :tag "Don't change default contrast of theme." nil)))
 
-(defcustom selected-window-contrast-contrast-text-others nil
+(defcustom selected-window-contrast-text-others nil
   "Non-nil used to set not selected windows text contrast in [0-1] range."
   :group 'swc2
   :type '(choice (number :tag "Text contrast [0-1].")
@@ -511,11 +505,11 @@ $ emacsclient -c ~/file"
                             (buffer-face-set 'default)
                             (selected-window-contrast-change-window
                              selected-window-contrast-bg-others
-                             selected-window-contrast-contrast-text-others))))
+                             selected-window-contrast-text-others))))
                       -1 ) ; -1 means to not include minimuber
 
       ;; - selected:
-      (selected-window-contrast-change-window selected-window-contrast-bg-selected selected-window-contrast-contrast-text-selected)
+      (selected-window-contrast-change-window selected-window-contrast-bg-selected selected-window-contrast-text-selected)
         ;; else
         ;; (buffer-face-set 'default)
         )))

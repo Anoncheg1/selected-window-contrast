@@ -16,9 +16,9 @@ Also working for modeline.
 (require 'selected-window-contrast)
 
 (setopt selected-window-contrast-bg-selected 0.95)
-(setopt selected-window-contrast-bg-others 0.7)
-(setopt selected-window-contrast-contrast-text-selected 0.9)
-(setopt selected-window-contrast-contrast-text-others 0.6)
+(setopt selected-window-contrast-bg-others 0.75)
+(setopt selected-window-contrast-text-selected 0.9)
+(setopt selected-window-contrast-text-others 0.6)
 (add-hook 'buffer-list-update-hook #'selected-window-contrast-highlight-selected-window)
 ```
 
