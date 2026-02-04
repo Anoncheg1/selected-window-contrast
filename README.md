@@ -5,7 +5,7 @@
 
 # selected-window-contrast - highlighter for current window.
 
-**Version 0.1**
+**Version 0.2**
 Emacs package, allow to set color of background and text by comparing their brightness. This is useful for highlighting selected window that may have different themes during the daytime, [Circadian package](https://github.com/GuidoSchmidt/circadian). It just loop windows at frame and change colors.
 
 Also working for modeline.
@@ -82,7 +82,7 @@ At left - selected window.
 - Restore buffer state		https://github.com/Anoncheg1/emacs-unmodified-buffer1
 - Russian celendar		https://github.com/Anoncheg1/emacs-russian-calendar
 - outline.el usage		https://github.com/Anoncheg1/emacs-outline-it
-- Call LLMs and AI agents from Org-mode ai block. https://github.com/Anoncheg1/emacs-oai
+- AI chat blocks for Org-mode	https://github.com/Anoncheg1/emacs-oai
 
 # Donate, sponsor author
 You can sponsor author crypto money directly with crypto currencies:
