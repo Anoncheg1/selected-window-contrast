@@ -20,6 +20,9 @@ Also working for modeline.
 (setopt selected-window-contrast-text-selected 0.9)
 (setopt selected-window-contrast-text-others 0.6)
 (add-hook 'buffer-list-update-hook #'selected-window-contrast-highlight-selected-window)
+;; Experimental:
+;; (add-hook 'window-selection-change-functions
+;;     #'selected-window-contrast-mark-small-rectangle-temporary)
 ```
 
 # Usage for modeline
