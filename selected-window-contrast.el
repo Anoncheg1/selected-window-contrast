@@ -248,6 +248,7 @@ Use rectangle-mark-mode, deactivate after 1 second or less."
   (if (window-minibuffer-p (selected-window))
       (setq selected-window-contrast-prev-window t)
     ;; else
+    (print (list "wtf" selected-window-contrast-prev-window))
     (let ((minib selected-window-contrast-prev-window))
       (setq selected-window-contrast-prev-window nil)
       (unless minib
@@ -257,7 +258,7 @@ Use rectangle-mark-mode, deactivate after 1 second or less."
                (rectangle-forward-char 8)
                (rectangle-exchange-point-and-mark))
         ;; Start timer to deactivate mark and rectangle mode.
-        (run-with-timer 0.3 nil (lambda ()
+        (run-with-timer 0.4 nil (lambda ()
                                   (when (region-active-p)
                                     ;; (exchange-point-and-mark)
                                     (deactivate-mark))))))))
