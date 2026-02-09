@@ -8,7 +8,9 @@
 **Version 0.2**
 Emacs package, allow to set color of background and text by comparing their brightness. This is useful for highlighting selected window that may have different themes during the daytime, [Circadian package](https://github.com/GuidoSchmidt/circadian). It just loop windows at frame and change colors.
 
-Also working for modeline.
+Additionally to contrast: highligh cursor position of selected window by default, this may be disabled.
+
+Modeline highlighting configured separately
 
 # Usage for selected window
 ```Elisp
@@ -20,12 +22,12 @@ Also working for modeline.
 (setopt selected-window-contrast-text-selected 0.9)
 (setopt selected-window-contrast-text-others 0.6)
 (add-hook 'buffer-list-update-hook #'selected-window-contrast-highlight-selected-window)
-;; Experimental:
-;; (add-hook 'window-selection-change-functions
-;;     #'selected-window-contrast-mark-small-rectangle-temporary)
 ```
 
+To disable highlighting window with rectangle around pointer use: `(setopt selected-window-contrast-mode 1)`
+
 # Usage for modeline
+Dont require hook and configured statically.
 ```Elisp
 (progn
   ;; - reset mode-line to default. (optional)
@@ -36,7 +38,7 @@ Also working for modeline.
                       (face-attribute 'mode-line :foreground))
   ;; - set backgound color (optional)
   (set-face-attribute 'mode-line-active nil :background "cyan4")
-  ;; - increate contrast
+  ;; - increate contrast (optional)
   (selected-window-contrast-change-modeline 0.7 0.7)
   ) ; press C-x C-e to execute and test
 ```
@@ -44,6 +46,7 @@ Also working for modeline.
 Change contrast in current buffer ``` (selected-window-contrast-change-window 0.7 0.7) ```
 
 # How this works
+1) We use buffer-list-update-hook for "cotrast highlightling", that triggered at selectiong window, for "rectangle highlighting" we use `window-selection-change-functions` that demand to be set per buffer.
 1) We get color with ```face-attribute (selected-frame)``` for foreground and backgraound.
 2) Convert color to HSL
 3) adjust brightness in direction of foreground-background average

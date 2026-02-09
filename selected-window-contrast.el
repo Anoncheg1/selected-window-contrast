@@ -46,12 +46,11 @@
 ;;   (setopt selected-window-contrast-text-others 0.6)
 ;;   (add-hook 'buffer-list-update-hook
 ;;             #'selected-window-contrast-highlight-selected-window))
-;;   ;; Experimental:
-;;   ;; (add-hook 'window-selection-change-functions
-;;   ;;   #'selected-window-contrast-mark-small-rectangle-temporary)
-;;
 
-;; Note: selected-window-contrast-text-switch-mode
+
+;; To disable highlighting window with rectangle around pointer use:
+;; (setopt selected-window-contrast-mode 1)
+
 
 ;; How this works:
 ;;  1) We get color with `face-attribute' `selected-frame' for
@@ -83,6 +82,7 @@
 ;; Touch: Global variables bound deep is not good, it is a type of the inversion of control.
 ;; I am the best that is why I am the winner.
 (require 'color)
+(require 'rect)
 
 ;; - configurable:
 (defcustom selected-window-contrast-bg-selected nil
@@ -111,6 +111,11 @@ in [0-1] range."
   :group 'selected-window-contrast
   :type '(choice (number :tag "Text contrast [0-1].")
                  (const :tag "Don't change default contrast of theme." nil)))
+
+(defcustom selected-window-contrast-mode 3
+  "Highlight window by 3 contrast and region, 1 by contrast, 2 by region."
+  :group 'selected-window-contrast
+  :type 'number)
 
 (defun selected-window-contrast--get-current-colors ()
   "Get current text and background color of default face.
@@ -235,33 +240,28 @@ or decrease contrast."
              (new-fore (apply #'selected-window-contrast--rgb-to-hex (nth 0 new-colors)))
              (new-back (apply #'selected-window-contrast--rgb-to-hex (nth 1 new-colors))))
         (set-face-attribute 'mode-line-active nil
-                            :foreground new-foreq
+                            :foreground new-fore
                             :background new-back)
         t))))
 
 (defvar selected-window-contrast-prev-window nil)
 
 (defun selected-window-contrast-mark-small-rectangle-temporary (window)
-  "Mark a 2x2 rectangle around point for 1 sec, to hightlight window.
-Use rectangle-mark-mode, deactivate after 1 second or less."
+  "Mark a 2x2 rectangle around point for 1 sec, to hightlight WINDOW.
+Use `rectangle-mark-mode'.  Deactivate rectangle after 1 second or less."
   (interactive)
-  (if (window-minibuffer-p (selected-window))
-      (setq selected-window-contrast-prev-window t)
-    ;; else
-    (print (list "wtf" selected-window-contrast-prev-window))
-    (let ((minib selected-window-contrast-prev-window))
-      (setq selected-window-contrast-prev-window nil)
-      (unless minib
-        ;; Enable rectangle selection.
-        (progn (rectangle-mark-mode 1)
-               (rectangle-next-line 2)
-               (rectangle-forward-char 8)
-               (rectangle-exchange-point-and-mark))
-        ;; Start timer to deactivate mark and rectangle mode.
-        (run-with-timer 0.4 nil (lambda ()
-                                  (when (region-active-p)
-                                    ;; (exchange-point-and-mark)
-                                    (deactivate-mark))))))))
+  (when (and (eq window (selected-window))
+             (not (window-minibuffer-p window)))
+    ;; Enable rectangle selection.
+    (progn (rectangle-mark-mode 1)
+           (rectangle-next-line 2)
+           (rectangle-forward-char 8)
+           (rectangle-exchange-point-and-mark))
+    ;; Start timer to deactivate mark and rectangle mode.
+    (run-with-timer 0.5 nil (lambda ()
+                              (when (region-active-p)
+                                ;; (exchange-point-and-mark)
+                                (deactivate-mark))))))
 
 (defun selected-window-contrast-highlight-selected-window-with-timeout ()
   "Highlight not selected windows with a different background color.
@@ -276,18 +276,26 @@ $ emacsclient -c ~/file"
         (sw (selected-window)))
     (when (/= (aref cbn 0) ?\s) ; ignore system buffers
       ;; - not selected:
-      (walk-windows (lambda (w)
-                      (unless (or (eq sw w)
-                                  (eq cbn (buffer-name (window-buffer w))))
-                        (with-selected-window w
-                          (buffer-face-set 'default)
-                          (selected-window-contrast-change-window
-                           selected-window-contrast-bg-others
-                           selected-window-contrast-text-others))))
-                    -1 ) ; -1 means to not include minimuber
+      (when (or (eq selected-window-contrast-mode 1)
+                (eq selected-window-contrast-mode 3))
+        (walk-windows (lambda (w)
+                        (unless (or (eq sw w)
+                                    (eq cbn (buffer-name (window-buffer w))))
+                          (with-selected-window w
+                            (buffer-face-set 'default)
+                            (selected-window-contrast-change-window
+                             selected-window-contrast-bg-others
+                             selected-window-contrast-text-others))))
+                      -1)) ; -1 means to not include minimuber
 
       ;; - selected:
-      (selected-window-contrast-change-window selected-window-contrast-bg-selected selected-window-contrast-text-selected))))
+      (when (or (eq selected-window-contrast-mode 1)
+                (eq selected-window-contrast-mode 3))
+        (selected-window-contrast-change-window selected-window-contrast-bg-selected selected-window-contrast-text-selected))
+      (when (or (eq selected-window-contrast-mode 2)
+                (eq selected-window-contrast-mode 3))
+        (add-hook 'window-selection-change-functions #'selected-window-contrast-mark-small-rectangle-temporary nil t))
+      )))
 
 (provide 'selected-window-contrast)
 ;;; selected-window-contrast.el ends here
