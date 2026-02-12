@@ -27,13 +27,11 @@
 ;; see <https://www.gnu.org/licenses/agpl-3.0.en.html>.
 
 ;;; Commentary:
-;; It Loop windows at frame, measure and adjust contrast.  Allow to
-;;  set color (face) of background and text by comparing their
-;;  brightness.
-;; This is useful for changing themes during the daytime (circadian
-;;  package) and for highlighting selected window.  Also this works
-;;  for modeline.
-;;  We also highligh cursor position, this may be disabled witha
+;; Highlight selected window by adjusting contrast of text ;;
+;;  "foreground" and background.
+;; Working good if you switch temes frequently, contrast will be kept.
+;; Also this works for modeline.
+;;  We also highligh cursor position, this may be disabled with
 ;;  M-x customize-variable RET selected-window-contrast-text-switch-mode
 
 ;; Usage:
@@ -117,7 +115,7 @@ in [0-1] range."
   :group 'selected-window-contrast
   :type 'number)
 
-(defcustom selected-window-contrast-region-timeout 0.8
+(defcustom selected-window-contrast-region-timeout 0.5
   "Hightlight cursor position: Second for which to show rectangle around."
   :group 'selected-window-contrast
   :type 'float)
