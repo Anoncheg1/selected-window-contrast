@@ -27,7 +27,7 @@
 ;; see <https://www.gnu.org/licenses/agpl-3.0.en.html>.
 
 ;;; Commentary:
-;; Highlight selected window by adjusting contrast of text ;;
+;; Highlight selected window by adjusting contrast of text
 ;;  "foreground" and background.
 ;; Working good if you switch temes frequently, contrast will be kept.
 ;; Also this works for modeline.

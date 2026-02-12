@@ -6,11 +6,9 @@
 # selected-window-contrast - highlighter for current window.
 
 **Version 0.2**
-Emacs package, allow to set color of background and text by comparing their brightness. This is useful for highlighting selected window that may have different themes during the daytime, [Circadian package](https://github.com/GuidoSchmidt/circadian). It just loop windows at frame and change colors.
-
-Additionally to contrast: highligh cursor position of selected window by default, this may be disabled.
-
-Modeline highlighting configured separately
+Emacs package, allows setting the background and text colors based on brightness comparison. This is useful for highlighting the selected window, especially when different themes are in use during the day, such as with the Circadian package. It iterates through windows in the frame and adjusts colors accordingly.
+Additionally, cursor position highlighting in the selected window is enabled by default and can be disabled.
+Modeline highlighting is configured separately.
 
 # Usage for selected window
 ```Elisp
