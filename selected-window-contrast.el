@@ -117,6 +117,11 @@ in [0-1] range."
   :group 'selected-window-contrast
   :type 'number)
 
+(defcustom selected-window-contrast-region-timeout 0.8
+  "Hightlight cursor position: Second for which to show rectangle around."
+  :group 'selected-window-contrast
+  :type 'float)
+
 (defun selected-window-contrast--get-current-colors ()
   "Get current text and background color of default face.
 Returns list: (foreground background), both strings."
@@ -258,10 +263,13 @@ Use `rectangle-mark-mode'.  Deactivate rectangle after 1 second or less."
            (rectangle-forward-char 8)
            (rectangle-exchange-point-and-mark))
     ;; Start timer to deactivate mark and rectangle mode.
-    (run-with-timer 0.5 nil (lambda ()
-                              (when (region-active-p)
-                                ;; (exchange-point-and-mark)
-                                (deactivate-mark))))))
+    (run-with-timer selected-window-contrast-region-timeout
+                    nil (lambda (buf)
+                          (with-current-buffer buf
+                            (when (region-active-p)
+                              ;; (exchange-point-and-mark)
+                              (deactivate-mark))))
+                    (current-buffer))))
 
 (defun selected-window-contrast-highlight-selected-window-with-timeout ()
   "Highlight not selected windows with a different background color.
