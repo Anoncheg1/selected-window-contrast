@@ -1,7 +1,7 @@
 ;;; selected-window-contrast.el --- Highlight by brightness of text and background   -*- lexical-binding: t -*-
 
 ;; Copyright (c) 2025 github.com/Anoncheg1,codeberg.org/Anoncheg
-;; Author: <github.com/Anoncheg1,codeberg.org/Anoncheg>
+;; Author: Anoncheg <vitalij@gmx.com>
 ;;
 ;; Keywords:  color, windows, faces, buffer, background
 ;; URL: https://codeberg.org/Anoncheg/selected-window-contrast
@@ -32,10 +32,12 @@
 
 ;; Highlight selected window by adjusting contrast of text
 ;;  "foreground" and background.
-;; Working good if you switch temes frequently, contrast will be kept.
+;; Working good if you switch themes frequently, contrast will be kept.
 ;; Also this works for modeline.
-;;  We also highligh cursor position, this may be disabled with
-;;  M-x customize-variable RET selected-window-contrast-text-switch-mode
+;; We also highligh cursor position, this may be disabled with
+;;  (setopt selected-window-contrast-region-flag nil) in .emacs
+;;  or
+;;  M-x customize-variable RET selected-window-contrast-region-flag
 
 ;;; Usage:
 
@@ -47,11 +49,6 @@
 ;;   (setopt selected-window-contrast-text-others 0.6)
 ;;   (add-hook 'buffer-list-update-hook
 ;;             #'selected-window-contrast-highlight-selected-window))
-
-
-;; To disable highlighting window with rectangle around pointer use:
-;; (setopt selected-window-contrast-region-flag nil)
-
 
 ;;;  How this works:
 
