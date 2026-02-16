@@ -127,43 +127,30 @@ in [0-1] range."
                  (const :tag "Don't change default contrast of theme." nil)))
 
 (defcustom selected-window-contrast-region-flag t
-  "Non-nil means enable highlighting curson by region around it.")
+  "Non-nil means enable highlighting cursor by region around it."
+  :type 'boolean)
 
 (defcustom selected-window-contrast-flag t
-  "Non-nil means enable highlighting by contrast.")
+  "Non-nil means enable highlighting by contrast."
+  :type 'boolean)
 
 (defcustom selected-window-contrast-region-timeout 0.5
-  "Hightlight cursor position: Second for which to show rectangle around."
+  "Highlighting curson, second for which to show rectangle around."
   :type 'float)
+
+(defcustom selected-window-contrast-region-width 8
+  "Highlighting curson, width in chars of rectangle."
+  :type 'number)
+
+(defcustom selected-window-contrast-region-lines 2
+  "Highlighting curson, height in lines of rectangle."
+  :type 'number)
 
 (defun selected-window-contrast--get-current-colors ()
   "Get current text and background color of default face.
 Returns list: (foreground background), both strings."
-  (list (face-attribute 'default :foreground (selected-frame))
-        (face-attribute 'default :background (selected-frame))))
-
-(defun selected-window-contrast--parse-color (color)
-  "Return normalized RGB list for COLOR (hex or name).
-COLOR: string, hex like '#rrggbb' or '#rrrrggggbbbb', or color name."
-  (cond
-   ((and (stringp color) (string-prefix-p "#" color))
-    (let* ((hex (substring color 1))
-           (len (length hex))
-           (digits (/ len 3))
-           (maxval (if (= digits 2) 255.0 65535.0)))
-      (mapcar
-       (lambda (i)
-         (/ (string-to-number (substring hex (* i digits) (* (+ i 1) digits)) 16)
-            maxval))
-       '(0 1 2))))
-   ((and (stringp color) (color-name-to-rgb color))
-    (color-name-to-rgb color))
-   (t (error "Invalid color: %s" color))))
-
-(defun selected-window-contrast--color-to-hsl (color)
-  "Convert COLOR (hex or name) to a normalized HSL list.
-COLOR: string, hex or color name."
-  (apply #'color-rgb-to-hsl (selected-window-contrast--parse-color color)))
+  (list (face-attribute 'default :foreground)
+        (face-attribute 'default :background)))
 
 (defun selected-window-contrast-adjust-contrast (text-color background-color bg-mag text-mag)
   "Maximize visual contrast between TEXT-COLOR and BACKGROUND-COLOR.
@@ -177,27 +164,26 @@ Arguments:
  TEXT-MAG (float in [0,1], optional): stretching of contrast for text.
 Returns:
  List: (NEW-TEXT-RGB NEW-BACKGROUND-RGB), each as (R G B) floats in [0,1]."
-  (let ((text-hsl (selected-window-contrast--color-to-hsl text-color))
-        (bg-hsl   (selected-window-contrast--color-to-hsl background-color))
-        (mid 0.5))
-    (let ((res-text-rgb
-           (if (not text-mag)
-               (apply #'color-hsl-to-rgb text-hsl)
-             ;; else
-             (let* ((t-l (nth 2 text-hsl))
-                    (new-t-l (if (> t-l mid)
-                                 (+ mid (* text-mag (- 1.0 mid)))
-                               (- mid (* text-mag (- mid 0))))))
-               (apply #'color-hsl-to-rgb (list (nth 0 text-hsl) (nth 1 text-hsl) new-t-l)))))
-          (res-bg-rgb (if (not bg-mag)
-                          (apply #'color-hsl-to-rgb bg-hsl)
-                        ;; else
-                        (let* ((b-l (nth 2 bg-hsl))
-                               (new-b-l (if (> b-l mid)
-                                            (+ mid (* bg-mag (- 1.0 mid)))
-                                          (- mid (* bg-mag (- mid 0))))))
-                          (apply #'color-hsl-to-rgb (list (nth 0 bg-hsl) (nth 1 bg-hsl) new-b-l))))))
-      (list res-text-rgb res-bg-rgb))))
+  (let* ((text-hsl (apply #'color-rgb-to-hsl (color-name-to-rgb text-color)))
+         (bg-hsl   (apply #'color-rgb-to-hsl (color-name-to-rgb background-color)))
+         (mid 0.5))
+    (list
+     (if (not text-mag)
+         (apply #'color-hsl-to-rgb text-hsl)
+       ;; else
+       (let* ((t-l (nth 2 text-hsl))
+              (new-t-l (if (> t-l mid)
+                           (+ mid (* text-mag (- 1.0 mid)))
+                         (- mid (* text-mag (- mid 0))))))
+         (apply #'color-hsl-to-rgb (list (nth 0 text-hsl) (nth 1 text-hsl) new-t-l))))
+     (if (not bg-mag)
+         (apply #'color-hsl-to-rgb bg-hsl)
+       ;; else
+       (let* ((b-l (nth 2 bg-hsl))
+              (new-b-l (if (> b-l mid)
+                           (+ mid (* bg-mag (- 1.0 mid)))
+                         (- mid (* bg-mag (- mid 0))))))
+         (apply #'color-hsl-to-rgb (list (nth 0 bg-hsl) (nth 1 bg-hsl) new-b-l)))))))
 
 (defun selected-window-contrast--rgb-to-hex (rgb &optional digits)
   "Convert normalized RGB list to hex string.
@@ -276,10 +262,10 @@ Use `rectangle-mark-mode'.  Deactivate rectangle after 1 second or less."
              (not (window-minibuffer-p selected-window-contrast-prev-window)))
 
     ;; Enable rectangle selection.
-    (progn (rectangle-mark-mode 1)
-           (rectangle-next-line 2)
-           (rectangle-forward-char 8)
-           (rectangle-exchange-point-and-mark))
+    (rectangle-mark-mode 1)
+    (rectangle-next-line selected-window-contrast-region-lines) ; 2
+    (rectangle-forward-char selected-window-contrast-region-width) ; 8
+    (rectangle-exchange-point-and-mark)
     ;; Start timer to deactivate mark and rectangle mode.
     (run-with-timer selected-window-contrast-region-timeout
                     nil (lambda (buf)
@@ -313,15 +299,18 @@ $ emacsclient -c ~/file"
                             (selected-window-contrast-change-window
                              selected-window-contrast-bg-others
                              selected-window-contrast-text-others))))
-                      -1)) ; -1 means to not include minimuber
+                      -1)) ; -1 means to not include minibuffer
 
       ;; - selected:
       (when selected-window-contrast-flag
-        (selected-window-contrast-change-window selected-window-contrast-bg-selected selected-window-contrast-text-selected))
+        (selected-window-contrast-change-window selected-window-contrast-bg-selected
+                                                selected-window-contrast-text-selected))
       (if selected-window-contrast-region-flag
-        (add-hook 'window-selection-change-functions #'selected-window-contrast-mark-small-rectangle-temporary nil t)
+        (add-hook 'window-selection-change-functions
+                  #'selected-window-contrast-mark-small-rectangle-temporary nil t)
         ;; else
-        (remove-hook 'window-selection-change-functions #'selected-window-contrast-mark-small-rectangle-temporary t)))))
+        (remove-hook 'window-selection-change-functions
+                     #'selected-window-contrast-mark-small-rectangle-temporary t)))))
 
 (provide 'selected-window-contrast)
 ;;; selected-window-contrast.el ends here
