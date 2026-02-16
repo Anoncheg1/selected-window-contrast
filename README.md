@@ -64,8 +64,9 @@ Change contrast in current buffer ``` (selected-window-contrast-change-window 0.
 ```
 from https://emacs.stackexchange.com/questions/24630/is-there-a-way-to-change-color-of-active-windows-fringe
 
-# screenshot
-At left - selected window.
+# Screenshot
+At left - selected window, at right "others" blured window.
+
 ![](https://raw.githubusercontent.com/Anoncheg1/public-share/refs/heads/main/selected-window-contrast.png)
 
 # Packages for highlighting window
