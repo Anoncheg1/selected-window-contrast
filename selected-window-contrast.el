@@ -2,6 +2,7 @@
 
 ;; Copyright (c) 2025 github.com/Anoncheg1,codeberg.org/Anoncheg
 ;; Author: <github.com/Anoncheg1,codeberg.org/Anoncheg>
+;;
 ;; Keywords:  color, windows, faces, buffer, background
 ;; URL: https://codeberg.org/Anoncheg/selected-window-contrast
 ;; Version: 0.2
@@ -10,6 +11,7 @@
 ;; SPDX-License-Identifier: AGPL-3.0-or-later
 
 ;;; License
+
 ;; This file is not part of GNU Emacs.
 
 ;; This program is free software: you can redistribute it and/or modify
@@ -27,6 +29,7 @@
 ;; see <https://www.gnu.org/licenses/agpl-3.0.en.html>.
 
 ;;; Commentary:
+
 ;; Highlight selected window by adjusting contrast of text
 ;;  "foreground" and background.
 ;; Working good if you switch temes frequently, contrast will be kept.
@@ -34,7 +37,7 @@
 ;;  We also highligh cursor position, this may be disabled with
 ;;  M-x customize-variable RET selected-window-contrast-text-switch-mode
 
-;; Usage:
+;;; Usage:
 
 ;; (add-to-list 'load-path "path_to/selected-window-contrast") ; optional
 ;; (when (require 'selected-window-contrast nil 'noerror)
@@ -47,10 +50,11 @@
 
 
 ;; To disable highlighting window with rectangle around pointer use:
-;; (setopt selected-window-contrast-mode 1)
+;; (setopt selected-window-contrast-region-flag nil)
 
 
-;; How this works:
+;;;  How this works:
+
 ;;  1) We get color with `face-attribute' `selected-frame' for
 ;;  foreground and backgraound.
 ;;  2) Convert color to HSL
@@ -60,12 +64,14 @@
 
 ;; Customize: M-x customize-group RET selected-window-contrast
 
-;; Donate:
+;;; Donate:
+
 ;; - BTC (Bitcoin) address: 1CcDWSQ2vgqv5LxZuWaHGW52B9fkT5io25
 ;; - USDT (Tether TRX-TRON) address: TVoXfYMkVYLnQZV3mGZ6GvmumuBfGsZzsN
 ;; - TON (Telegram) address: UQC8rjJFCHQkfdp7KmCkTZCb5dGzLFYe2TzsiZpfsnyTFt9D
 
-;; Other packages:
+;;; Other packages:
+
 ;; - Modern navigation in major modes https://github.com/Anoncheg1/firstly-search
 ;; - Search with Chinese	https://github.com/Anoncheg1/pinyin-isearch
 ;; - Ediff no 3-th window	https://github.com/Anoncheg1/ediffnw
@@ -77,47 +83,57 @@
 ;; - Call LLMs & AIfrom Org-mode block.  https://github.com/Anoncheg1/emacs-oai
 
 ;;; Code:
+
 ;; Touch: Global variables bound deep is not good, it is a type of the inversion of control.
 ;; I am the best that is why I am the winner.
 (require 'color)
 (require 'rect)
+
+(defgroup selected-window-contrast nil
+ "Highlight by brightness of text and background."
+ :group 'faces)
 
 ;; - configurable:
 (defcustom selected-window-contrast-bg-selected nil
   "Non-nil used to set selected window background contrast in [0-1] range.
 Higher value increase contrast between text and background.
 This value change contrast of text regarding to background."
-  :group 'selected-window-contrast
-  :type '(choice (number :tag "contrast in [0-1] range")
+  :type '(choice (restricted-sexp :match-alternatives
+                                  ((lambda (x) (and (numberp x) (<= 0 x 1))))
+                                  :message "Contrast value must be between 0 and 1")
                  (const :tag "Don't change default contrast of theme." nil)))
 
 (defcustom selected-window-contrast-bg-others 0.8
   "Non-nil used to set not selected windows background contrast.
 in [0-1] range."
-  :group 'selected-window-contrast
-  :type '(choice (number :tag "contrast [0-1].")
-                 (const :tag "Don't change default contrast of theme." nil)))
+  :type '(choice
+          (const :tag "Don't change default contrast of theme." nil)
+          (restricted-sexp :match-alternatives
+                           ((lambda (x) (and (numberp x) (<= 0 x 1))))
+                           :message "Contrast value must be between 0 and 1")))
 
 (defcustom selected-window-contrast-text-selected nil
   "Non-nil used to set not selected windows text contrast in [0-1] range."
-  :group 'selected-window-contrast
-  :type '(choice (number :tag "Text contrast [0-1].")
+  :type '(choice (restricted-sexp :match-alternatives
+                                  ((lambda (x) (and (numberp x) (<= 0 x 1))))
+                                  :message "Contrast value must be between 0 and 1")
                  (const :tag "Don't change default contrast of theme." nil)))
 
 (defcustom selected-window-contrast-text-others nil
   "Non-nil used to set not selected windows text contrast in [0-1] range."
-  :group 'selected-window-contrast
-  :type '(choice (number :tag "Text contrast [0-1].")
+  :type '(choice (restricted-sexp :match-alternatives
+                           ((lambda (x) (and (numberp x) (<= 0 x 1))))
+                           :message "Contrast value must be between 0 and 1")
                  (const :tag "Don't change default contrast of theme." nil)))
 
-(defcustom selected-window-contrast-mode 3
-  "Highlight window by 3 contrast and region, 1 by contrast, 2 by region."
-  :group 'selected-window-contrast
-  :type 'number)
+(defcustom selected-window-contrast-region-flag t
+  "Non-nil means enable highlighting curson by region around it.")
+
+(defcustom selected-window-contrast-flag t
+  "Non-nil means enable highlighting by contrast.")
 
 (defcustom selected-window-contrast-region-timeout 0.5
   "Hightlight cursor position: Second for which to show rectangle around."
-  :group 'selected-window-contrast
   :type 'float)
 
 (defun selected-window-contrast--get-current-colors ()
@@ -288,8 +304,7 @@ $ emacsclient -c ~/file"
         (sw (selected-window)))
     (when (/= (aref cbn 0) ?\s) ; ignore system buffers
       ;; - not selected:
-      (when (or (eq selected-window-contrast-mode 1)
-                (eq selected-window-contrast-mode 3))
+      (when selected-window-contrast-flag
         (walk-windows (lambda (w)
                         (unless (or (eq sw w)
                                     (eq cbn (buffer-name (window-buffer w))))
@@ -301,13 +316,12 @@ $ emacsclient -c ~/file"
                       -1)) ; -1 means to not include minimuber
 
       ;; - selected:
-      (when (or (eq selected-window-contrast-mode 1)
-                (eq selected-window-contrast-mode 3))
+      (when selected-window-contrast-flag
         (selected-window-contrast-change-window selected-window-contrast-bg-selected selected-window-contrast-text-selected))
-      (when (or (eq selected-window-contrast-mode 2)
-                (eq selected-window-contrast-mode 3))
-        (add-hook 'window-selection-change-functions #'selected-window-contrast-mark-small-rectangle-temporary nil t))
-      )))
+      (if selected-window-contrast-region-flag
+        (add-hook 'window-selection-change-functions #'selected-window-contrast-mark-small-rectangle-temporary nil t)
+        ;; else
+        (remove-hook 'window-selection-change-functions #'selected-window-contrast-mark-small-rectangle-temporary t)))))
 
 (provide 'selected-window-contrast)
 ;;; selected-window-contrast.el ends here

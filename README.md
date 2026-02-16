@@ -21,7 +21,7 @@ Also highlights the cursor position optionally, and modeline highlighting is con
 (add-hook 'buffer-list-update-hook #'selected-window-contrast-highlight-selected-window)
 ```
 
-To disable highlighting window with rectangle around pointer use: `(setopt selected-window-contrast-mode 1)`
+To disable highlighting window with rectangle around pointer use: `(setopt selected-window-contrast-region-flag nil)`
 
 # Usage for modeline
 Dont require hook and configured statically.
