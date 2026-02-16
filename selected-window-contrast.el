@@ -247,14 +247,18 @@ or decrease contrast."
                             :background new-back)
         t))))
 
-(defvar selected-window-contrast-prev-window nil)
+(defvar selected-window-contrast-prev-window nil
+  "Saved current window, because `previous-window' is not working.
+Used in `selected-window-contrast-mark-small-rectangle-temporary'.")
 
 (defun selected-window-contrast-mark-small-rectangle-temporary (window)
   "Mark a 2x2 rectangle around point for 1 sec, to hightlight WINDOW.
 Use `rectangle-mark-mode'.  Deactivate rectangle after 1 second or less."
   (interactive)
   (when (and (eq window (selected-window))
-             (not (window-minibuffer-p window)))
+             (not (window-minibuffer-p window))
+             (not (window-minibuffer-p selected-window-contrast-prev-window)))
+
     ;; Enable rectangle selection.
     (progn (rectangle-mark-mode 1)
            (rectangle-next-line 2)
@@ -267,7 +271,9 @@ Use `rectangle-mark-mode'.  Deactivate rectangle after 1 second or less."
                             (when (region-active-p)
                               ;; (exchange-point-and-mark)
                               (deactivate-mark))))
-                    (current-buffer))))
+                    (current-buffer)))
+  ;; save current window, because `previous-window' is not working.
+  (setq selected-window-contrast-prev-window (selected-window)))
 
 (defun selected-window-contrast-highlight-selected-window-with-timeout ()
   "Highlight not selected windows with a different background color.
