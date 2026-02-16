@@ -5,9 +5,9 @@
 ;;
 ;; Keywords:  color, windows, faces, buffer, background
 ;; URL: https://codeberg.org/Anoncheg/selected-window-contrast
-;; Version: 0.2
+;; Version: 0.3
 ;; Created: 11 dec 2024
-;; Package-Requires: ((emacs "29.4"))
+;; Package-Requires: ((emacs "25.1"))
 ;; SPDX-License-Identifier: AGPL-3.0-or-later
 
 ;;; License

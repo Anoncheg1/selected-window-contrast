@@ -5,7 +5,7 @@
 
 # selected-window-contrast - highlighter for current window.
 
-**Version 0.2**
+**Version 0.3**
 Emacs package, highlights the selected window by adjusting the brightness of the text and background. The changes are relative, so the functionality works correctly even if the theme is changed.
 Also highlights the cursor position optionally, and modeline highlighting is configured separately.
 
