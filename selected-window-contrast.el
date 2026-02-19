@@ -1,6 +1,8 @@
 ;;; selected-window-contrast.el --- Highlight by brightness of text and background   -*- lexical-binding: t -*-
 
-;; Copyright (c) 2025 github.com/Anoncheg1,codeberg.org/Anoncheg
+;; Copyright (c) 2025 Anoncheg
+;;
+;; Maintainer: Anoncheg <vitalij@gmx.com>
 ;; Author: Anoncheg <vitalij@gmx.com>
 ;;
 ;; Keywords:  color, windows, faces, buffer, background
@@ -39,7 +41,7 @@
 ;;  or
 ;;  M-x customize-variable RET selected-window-contrast-region-flag
 
-;;; Usage:
+;;;; Usage:
 
 ;; (add-to-list 'load-path "path_to/selected-window-contrast") ; optional
 ;; (when (require 'selected-window-contrast nil 'noerror)
@@ -50,7 +52,7 @@
 ;;   (add-hook 'buffer-list-update-hook
 ;;             #'selected-window-contrast-highlight-selected-window))
 
-;;;  How this works:
+;;;;  How this works:
 
 ;;  1) We get color with `face-attribute' `selected-frame' for
 ;;  foreground and backgraound.
@@ -61,13 +63,13 @@
 
 ;; Customize: M-x customize-group RET selected-window-contrast
 
-;;; Donate:
+;;;; Donate:
 
 ;; - BTC (Bitcoin) address: 1CcDWSQ2vgqv5LxZuWaHGW52B9fkT5io25
 ;; - USDT (Tether TRX-TRON) address: TVoXfYMkVYLnQZV3mGZ6GvmumuBfGsZzsN
 ;; - TON (Telegram) address: UQC8rjJFCHQkfdp7KmCkTZCb5dGzLFYe2TzsiZpfsnyTFt9D
 
-;;; Other packages:
+;;;; Other packages:
 
 ;; - Modern navigation in major modes https://github.com/Anoncheg1/firstly-search
 ;; - Search with Chinese	https://github.com/Anoncheg1/pinyin-isearch
